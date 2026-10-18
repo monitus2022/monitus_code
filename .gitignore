@@ -1,0 +1,11 @@
+# IDE
+.cache/
+.kilo/
+.DS_Store
+.vscode/
+.DS_Store
+.idea
+
+*.env
+venv/
+*.log
