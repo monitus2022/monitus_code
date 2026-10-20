@@ -8,6 +8,9 @@ copyright: >
   exam preparation.
 theme:
   name: material
+  favicon: assets/images/favicon.svg
+  icon:
+    logo: octicons/file-code-16
   palette:
   # Primary colors: red, pink, purple, deep purple, indigo, blue, light blue, cyan, teal, green, light green, lime, yellow, amber, orange, deep orange, brown, grey, blue grey, black, white.
   # Accent colors: red, pink, purple, deep purple, indigo, blue, light blue, cyan, teal, green, light green, lime, yellow, amber, orange, deep orange.
