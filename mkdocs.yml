@@ -1,0 +1,8 @@
+site_name: monitus_code
+site_description: Daily-routine code notes and LLM/AI lab runs
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
