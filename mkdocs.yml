@@ -57,6 +57,7 @@ plugins:
   - mkdocs-jupyter:
       include: ["*.ipynb"]        # only .ipynb counts as a notebook; see notes
   - search
+  - awesome-pages
 
 extra_javascript:
   - javascripts/mathjax.js
