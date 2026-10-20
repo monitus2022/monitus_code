@@ -1,8 +1,60 @@
-site_name: monitus_code
-site_description: Daily-routine code notes and LLM/AI lab runs
-
+site_name: My Codes
+docs_dir: 'docs'
+exclude_docs: |
+  README.md
+  *.txt
+copyright: >
+  All codes are used strictly for personal, non-commercial study and 
+  exam preparation.
 theme:
   name: material
+  palette:
+  # Primary colors: red, pink, purple, deep purple, indigo, blue, light blue, cyan, teal, green, light green, lime, yellow, amber, orange, deep orange, brown, grey, blue grey, black, white.
+  # Accent colors: red, pink, purple, deep purple, indigo, blue, light blue, cyan, teal, green, light green, lime, yellow, amber, orange, deep orange.
+      # Dark Mode
+      - scheme: slate
+        primary: deep purple
+        accent: purple
+        toggle:
+          icon: material/brightness-4
+          name: Switch to light mode
+      # Light Mode
+      - scheme: default
+        primary: deep purple
+        accent: purple
+        toggle:
+          icon: material/brightness-7
+          name: Switch to dark mode
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - toc.integrate 
+    - navigation.top
+site_url: https://code.monitus.org
 
-nav:
-  - Home: index.md
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.smartsymbols    
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - tables
+  - attr_list
+  - md_in_html                    # required by grid cards
+  - pymdownx.emoji:               # :material-*: / :octicons-*: icons
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.arithmatex:
+        generic: true 
+
+plugins: 
+  - mkdocs-jupyter:
+      include: ["*.ipynb"]        # only .ipynb counts as a notebook; see notes
+  - search
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
