@@ -1,0 +1,5 @@
+nav:
+  - index.md
+  - Env Setup: env-setup.md
+  - Project Scaffold: project-scaffold.md
+  - FastAPI: fastapi-boilerplate.md
