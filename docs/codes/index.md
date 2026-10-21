@@ -1,27 +1,42 @@
 ---
-title: Codes
+title: Home
 ---
 
 # Codes
 
-(Note: List first, organize later)
+Snippets and notes to paste into a project — split by what the code is *for*
+rather than by file type.
 
-## Python Development
+<div class="grid cards" markdown>
 
-- Setup python env via different framework (conda, venv, poetry, etc.)
-- Basic project structure setup scripts
-- FastAPI boilerplate
+-   :material-language-python:{ .lg .middle } __Python__
 
-## Cloud-related Development
+    ---
 
-- AWS SAM config
-- Cloudflare page setup
-- MKDocs setup
+    Environment setup across conda, venv and poetry, project scaffolding, and a
+    FastAPI starting point.
 
-## Javascript Development
+    [:octicons-arrow-right-24: Python](python/index.md)
 
-- React basic setup
-- Vite basic setup
+-   :material-cloud-outline:{ .lg .middle } __Cloud__
+
+    ---
+
+    AWS SAM config, Cloudflare Pages deployment, and this site's own MkDocs
+    setup.
+
+    [:octicons-arrow-right-24: Cloud](cloud/index.md)
+
+-   :material-language-javascript:{ .lg .middle } __JavaScript__
+
+    ---
+
+    React and Vite starting points.
+
+    [:octicons-arrow-right-24: JavaScript](javascript/index.md)
+
+</div>
+
 
 ## Related
 

@@ -35,24 +35,3 @@ Notes, snippets and lab runs collected along the way.
     [:octicons-arrow-right-24: Token counter](tools/token_count.md)
 
 </div>
-
-## How it's organised
-
-Three sections, split by *what the artifact is* rather than by language:
-
-| Section | What belongs there | Format |
-| --- | --- | --- |
-| `codes/` | Snippets and notes you paste into a project | Markdown + `snippets/` includes |
-| `labs/` | Runs where the output is the point | Jupyter notebooks |
-| `tools/` | Interactive, browser-side utilities | Markdown + inline JS |
-
-## Conventions
-
-- **Pages are auto-discovered.** There is no `nav:` block: dropping a `.md` file
-  into a section directory publishes it, and the nav label comes from the first
-  `#` heading — or front-matter `title:` when you want to override it.
-- **Code lives once.** Snippet sources sit in `snippets/`, outside `docs/`, and
-  are spliced in with `--8<--`, so one fix propagates everywhere at once.
-- **Notebook outputs are executed before committing**, so builds stay fast and
-  hermetic, no API tokens are burned per build, and every change to output shows
-  up in `git diff` for review.
