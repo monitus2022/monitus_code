@@ -52,7 +52,7 @@ Better than `poetry` at speed, while using for static dependencies lock
 
 Doc: [Here](https://docs.astral.sh/uv/)
 
-### Obtaining uv:
+### Obtaining `uv`
 
 === "macOS / Linux"
 
@@ -78,25 +78,25 @@ Doc: [Here](https://docs.astral.sh/uv/)
     pip install uv
     ```
 
-### Setup project:
+### Setup project
 
 [`uv` features](https://docs.astral.sh/uv/getting-started/features/)
 
 
-    ```bash
-    # Init project
-    # uv init <project/folder-name>
-    uv init myproject
+```bash
+# Init project
+# uv init <project/folder-name>
+uv init myproject
 
-    # Add library
-    uv add fastapi
+# Add library
+uv add fastapi
 
-    # Lock dependencies with uv.lock file
-    uv lock
+# Lock dependencies with uv.lock file
+uv lock
 
-    # Install depenencies from uv lock
-    uv sync
-    ```
+# Install depenencies from uv lock
+uv sync
+```
 
 
 ## (Mini)conda
