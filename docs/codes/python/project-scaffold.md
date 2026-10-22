@@ -77,15 +77,30 @@ LLM_MODEL=gpt-4o-mini
 ### `.gitignore`
 
 ```text
+# Virtual environment
 .venv/
+venv/
+
+# Python
 __pycache__/
 *.py[cod]
+*.egg-info/
+
+# Environment & secrets
 .env
+
+# AI agent workspace
 .ai/
+
+# Tooling caches
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
-*.egg-info/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
 ```
 
 ### `pyproject.toml`
@@ -96,20 +111,20 @@ name = "my-python-app"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
-    "fastapi",
-    "uvicorn[standard]",
-    "pydantic-settings",
-    "asyncpg",
-    "pgvector",
+    "fastapi>=0.159.1",
+    "uvicorn[standard]>=0.54.0",
+    "pydantic-settings>=2.16.1",
+    "asyncpg>=0.32.0",
+    "pgvector>=0.5.1",
 ]
 
 [dependency-groups]
 dev = [
-    "pytest",
-    "pytest-asyncio",
-    "httpx",
-    "ruff",
-    "mypy",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "httpx>=0.28.1",
+    "ruff>=0.17.1",
+    "mypy>=2.4.0",
 ]
 
 [tool.uv]
@@ -164,6 +179,8 @@ services:
   app:
     build: .
     env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://app:app@db:5432/app
     ports:
       - "8000:8000"
     depends_on:
