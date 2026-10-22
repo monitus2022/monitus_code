@@ -6,7 +6,7 @@ title: Home
 
 Environment setup, project scaffolding, and a service starting point.
 
-- [Env setup](env-setup.md) — conda, venv and poetry side by side
+- [Env setup](env-setup.md) — conda, venv and uv side by side
 - [Project scaffold](project-scaffold.md) — directory layout plus setup script
 - [FastAPI boilerplate](fastapi-boilerplate.md) — app layout and run config
 
