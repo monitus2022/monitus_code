@@ -16,3 +16,10 @@ __pycache__/
 
 # MkDocs build output
 site/
+
+# Labs (standalone env, data — never publish)
+labs/data/
+labs/.chroma/
+labs/.env
+*.pdf
+*.npz

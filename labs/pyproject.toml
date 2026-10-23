@@ -1,0 +1,35 @@
+[project]
+name = "monitus-code-labs"
+version = "0.1.0"
+description = "Standalone env for LLM/RAG lab runs (separate from the MkDocs docs env)."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pymupdf>=1.24",
+    "tiktoken>=0.7",
+    "langchain-text-splitters>=0.3",
+    "boto3>=1.35",
+    "chromadb>=0.5",
+    "rank-bm25>=0.2",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "tabulate>=0.9",
+    "tqdm>=4.66",
+    "python-dotenv>=1.0",
+    "ipykernel>=6.29",
+    "jupyterlab>=4.2",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17",
+    "pytest>=9.1",
+]
+
+[tool.uv]
+# Lab env only — not a distributable package.
+package = false
+python-preference = "only-managed"
+
+[tool.ruff]
+line-length = 100
