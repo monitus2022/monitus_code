@@ -4,7 +4,11 @@ title: Project scaffold
 
 # Project scaffold
 
-The directory layout used for a fresh Python project, and the example content of the essential files.
+The repo-level layout and files for a fresh Python project — everything that
+sits *outside* the `app/` package.
+
+The application package itself (`main.py`, `core/`, `services/` and `api/v1/`)
+is covered in [FastAPI boilerplate](fastapi-boilerplate.md).
 
 ## Layout
 
@@ -54,7 +58,7 @@ The layout includes:
     └── README.md                  # Project overview & quickstart commands
     ```
 
-## Config files
+## Project files
 
 ### `.env.example`
 
@@ -67,11 +71,14 @@ APP_NAME=my-python-app
 DEBUG=false
 
 # Database (use host `db` instead of `localhost` inside docker-compose)
-DATABASE_URL=postgresql+asyncpg://app:app@localhost:5432/app
+DATABASE_URL=postgresql://app:app@localhost:5432/app
 
 # LLM provider
 LLM_API_KEY=
 LLM_MODEL=gpt-4o-mini
+
+# CORS — JSON list of browser origins allowed to call the API
+CORS_ORIGINS=["http://localhost:5173"]
 ```
 
 ### `.gitignore`
@@ -180,7 +187,7 @@ services:
     build: .
     env_file: .env
     environment:
-      DATABASE_URL: postgresql+asyncpg://app:app@db:5432/app
+      DATABASE_URL: postgresql://app:app@db:5432/app
     ports:
       - "8000:8000"
     depends_on:
@@ -188,49 +195,14 @@ services:
         condition: service_healthy
 ```
 
-## `.py` files
+## Application code
 
-### `config.py`
-
-```python
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
-
-class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
-
-    app_name: str = "my-python-app"
-    debug: bool = False
-    database_url: str = "postgresql+asyncpg://app:app@localhost:5432/app"
-    llm_model: str = "gpt-4o-mini"
-    llm_api_key: str = ""
-
-
-settings = Settings()
-```
-
-## Module references
-
-`app/services/__init__.py`:
-
-```python
-from app.services.search import SearchService
-
-__all__ = ["SearchService"]
-```
-
-Import from the package instead of the deep file path:
-
-```python
-# app/core/flags.py
-from app.services import SearchService
-
-
-class FeatureFlags:
-    def __init__(self, service: SearchService) -> None:
-        self.service = service
-```
+Everything under `app/` — `main.py`, `core/`, `services/` and `api/v1/` — is
+covered in [FastAPI boilerplate](fastapi-boilerplate.md), along with the local
+run command.
 
 ## Related
 
 - [Env setup](env-setup.md) — choosing the toolchain the scaffold assumes
+- [FastAPI boilerplate](fastapi-boilerplate.md) — the `app/` package that sits
+  inside this layout
