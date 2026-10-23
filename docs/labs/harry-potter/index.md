@@ -36,7 +36,7 @@ all 7 books only after the numbers move predictably on one.
 ## The mental model
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[PDF: 7 books] --> B[Parse to text<br/>PyMuPDF]
   B --> C[Detect book + chapter<br/>slice Book 1]
   C --> D[Chunk]

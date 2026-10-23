@@ -13,6 +13,7 @@ venv/
 # Python / uv
 .venv/
 __pycache__/
+.ipynb_checkpoints/
 
 # MkDocs build output
 site/
