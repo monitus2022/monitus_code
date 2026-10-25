@@ -7,8 +7,9 @@ title: Home
 Environment setup, project scaffolding, and a service starting point.
 
 - [Env setup](env-setup.md) — conda, venv and uv side by side
-- [Project scaffold](project-scaffold.md) — directory layout plus setup script
-- [FastAPI boilerplate](fastapi-boilerplate.md) — app layout and run config
+- [Project scaffold](project-scaffold.md) — repo layout and project files outside `app/`
+- [FastAPI boilerplate](fastapi-boilerplate.md) — the `app/` package and local run command
+- [PyTest](pytest.md) - template for testing most common types of python logic
 
 ## Related
 

@@ -13,6 +13,14 @@ venv/
 # Python / uv
 .venv/
 __pycache__/
+.ipynb_checkpoints/
 
 # MkDocs build output
 site/
+
+# Labs (standalone env, data — never publish)
+labs/data/
+labs/.chroma/
+labs/.env
+*.pdf
+*.npz
