@@ -6,6 +6,7 @@ title: Labs
 
 # Labs
 
+- [Harry Potter RAG example](./harry-potter/index.md)
 
 ## Related
 
