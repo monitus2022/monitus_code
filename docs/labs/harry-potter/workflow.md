@@ -49,6 +49,8 @@ flowchart TD
   F --> H
   H -->|top-k context| I[Generate<br/>Bedrock Converse]
   I --> J[Answer + citations]
+  I --> N[Conflict probe<br/>perturbed facts]
+  N --> O[grounded vs leaked]
   J --> K[Eval harness]
   L[Gold set] --> K
   K --> M[results.csv]
@@ -72,9 +74,10 @@ set below is what lets you split them.
 | 2 | **Gold set** | Hand-write questions with evidence snippets | Every question has a findable evidence snippet |
 | 3 | **Eval harness** | Score retrieval and generation separately | One `results.csv` you can re-run |
 | 4 | **Ablations** | Vary chunking/retriever, compare | A single comparison table |
-| 5 | **Scale** | All 7 books + write-up | Cross-book questions work |
+| 5 | **Robustness** | Perturb facts, prove context-grounding | Conflict probes follow the excerpt, not memory |
+| 6 | **Scale** | All 7 books + write-up | Cross-book questions work |
 
-Stay on Book 1 through Milestone 3. Reducing the corpus is what keeps the loop
+Stay on Book 1 through Milestone 5. Reducing the corpus is what keeps the loop
 fast.
 
 ### Components to build
@@ -93,6 +96,7 @@ row is a function you write:
 | Generator | Answer from retrieved context, with citations | query + chunks → answer |
 | Judge | Score an answer against gold | question, gold, context, answer → verdict |
 | Harness | Orchestrate + compute metrics | gold set + config → `results.csv` |
+| Conflict probe | Perturbed index vs. parametric memory | config + probes → counterfactual-adoption rate |
 
 ### Milestone 0 — Ingest
 
@@ -243,7 +247,65 @@ table:
 Report retrieval and generation metrics side by side, so you can see *why* a
 configuration wins, not just that it does.
 
-### Milestone 5 — Scale to 7 books
+### Milestone 5 — Robustness: does it read the context?
+
+Everything so far can be satisfied by a model reciting the series from memory
+instead of reading the excerpts. This milestone proves the answer actually came
+from the retrieved text, by handing the pipeline a context that is deliberately
+**wrong** and seeing which source it trusts.
+
+**The conflict probe.** Build a *synthetic index* from a copy of Book 1 with a
+handful of famous facts changed, globally and consistently:
+
+| Real | Perturbed |
+|---|---|
+| `vault seven hundred and thirteen` | `vault nine hundred and ninety-nine` |
+| `Nimbus Two Thousand` | `Comet Three Sixty` |
+
+Ask a question whose real answer is the original value ("What vault held the
+Philosopher's Stone?") and read the answer:
+
+- **Perturbed value** → the pipeline is context-grounded.
+- **Original value** → the model leaked parametric memory and ignored the excerpt.
+
+!!! warning "Patch the surface form, not the number"
+    The book spells these out: there are **zero** occurrences of `Vault 713` or
+    `Nimbus 2000` in the text — it's `vault seven hundred and thirteen` and
+    `Nimbus Two Thousand`. A no-op replacement is indistinguishable from a leak,
+    so `assert replaced > 0` and fail loudly. Apply the change to the **raw text
+    before chunking**, then re-chunk, re-embed (the cache key is the text hash,
+    so only perturbed chunks miss) and index into a **separate collection**. The
+    fact recurs across several chapters and, thanks to the 15% overlap, in
+    adjacent chunks — change every occurrence or retrieval may surface an
+    unperturbed copy.
+
+**Three outcomes, not two.** Also classify *refused / garbled*, and use the
+retrieved chunks `ask()` already returns to separate a **retrieval miss** (the
+perturbed chunk never reached the prompt) from a genuine leak.
+
+**Pair it with a closed-book run** (the same question with retrieval off).
+Cross the two probes and the cells become diagnostic:
+
+| | context value returned | memory value returned |
+|---|---|---|
+| **closed-book correct** | grounded — knows it, obeys context | **leak** |
+| **closed-book wrong** | grounded (baseline) | investigate (guess?) |
+
+**Make it a battery.** One fact is anecdotal; perturb several independent famous
+facts (vault, broom, birthday, Fluffy's name, Flamel, the house) and report a
+**counterfactual-adoption rate** over the set. Keep probes famous — the test only
+has power where the model actually memorized the original.
+
+This is the *context–memory (knowledge) conflict* setting; see Longpre et al.,
+*Entity-Based Knowledge Conflicts in Question Answering* (2021). Scope it
+honestly: it proves context-preference for the perturbed fact, not general
+faithfulness — that stays with the judge-based metric from Milestone 3.
+
+!!! tip "Checkpoint"
+    With the perturbed index every probe returns the perturbed value, and the
+    unperturbed control returns the real one.
+
+### Milestone 6 — Scale to 7 books
 
 Only now ingest all seven. Detect each book's boundary, tag chunks with the
 book, and add cross-book questions to the gold set. Watch for the new failure
@@ -261,6 +323,7 @@ When a question fails, classify it before fixing it:
 | Distractor | Evidence present, but model used a wrong chunk | Reranker / fewer chunks |
 | Over-abstention | Refuses though the answer is present | Prompt / top-k |
 | Under-abstention | Invents an answer to an unanswerable question | Stronger abstention instruction |
+| Parametric leak | Answers from memory over a conflicting excerpt | Grounding prompt / closed-book filter |
 
 ## Bedrock notes
 
@@ -277,7 +340,7 @@ When a question fails, classify it before fixing it:
 
 Pin these so a re-run is reproducible: embedding model + dimensions, generation
 model, judge model, chunk size and overlap, chunking strategy, `top_k`, fusion
-constant, and the gold-set version (question IDs).
+constant, the gold-set version (question IDs), and the perturbation set (probe IDs).
 
 ## Next steps
 
