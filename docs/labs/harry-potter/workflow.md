@@ -8,9 +8,10 @@ A first-principles RAG lab: take one long book, build a retrieval-augmented
 question-answering loop from scratch, then measure how wrong it is.
 
 This page is the **workflow map** — the order to build things in, the decisions
-at each stage, and the checkpoints that tell you a stage is done. The code
-lives in `lab.ipynb` next to this file; that notebook is the runnable artifact,
-this page is the reasoning behind it.
+at each stage, and the checkpoints that tell you a stage is done. The runnable
+artifacts are the notebooks next to this file: `lab1-basic_rag.ipynb` (ingest
+through a working question-answering loop) and `lab2-rag-evaluation.ipynb` (the
+gold set, metrics and ablations). This page is the reasoning behind them.
 
 !!! note "Learning goals"
     - Understand RAG as **two stages** — retrieve, then generate — not one black box
