@@ -10,8 +10,9 @@ question-answering loop from scratch, then measure how wrong it is.
 This page is the **workflow map** — the order to build things in, the decisions
 at each stage, and the checkpoints that tell you a stage is done. The runnable
 artifacts are the notebooks next to this file: `lab1-basic_rag.ipynb` (ingest
-through a working question-answering loop) and `lab2-rag-evaluation.ipynb` (the
-gold set, metrics and ablations). This page is the reasoning behind them.
+through a working question-answering loop), `lab2-evaluation-prep.ipynb` (the
+labelled question set) and `lab3-rag-evaluation.ipynb` (metrics and ablations).
+This page is the reasoning behind them.
 
 !!! note "Learning goals"
     - Understand RAG as **two stages** — retrieve, then generate — not one black box
@@ -71,11 +72,14 @@ set below is what lets you split them.
 |---|---|---|---|
 | 0 | **Ingest** | PDF → clean, chapter-aware text for Book 1 | You can print a chapter map and read a clean page |
 | 1 | **Baseline RAG** | Chunk → embed → index → retrieve → answer, end to end | Ask 3 questions you know the answers to and get sane answers |
-| 2 | **Gold set** | Hand-write questions with evidence snippets | Every question has a findable evidence snippet |
+| 2 | **Gold set** | Questions with evidence snippets | Every question has a findable evidence snippet |
 | 3 | **Eval harness** | Score retrieval and generation separately | One `results.csv` you can re-run |
 | 4 | **Ablations** | Vary chunking/retriever, compare | A single comparison table |
 | 5 | **Robustness** | Perturb facts, prove context-grounding | Conflict probes follow the excerpt, not memory |
 | 6 | **Scale** | All 7 books + write-up | Cross-book questions work |
+
+**Lab 1** covers Milestones 0–1, **Lab 2 (Evaluation Prep)** covers Milestone 2,
+**Lab 3 (Evaluation)** covers Milestones 3–4.
 
 Stay on Book 1 through Milestone 5. Reducing the corpus is what keeps the loop
 fast.
@@ -191,6 +195,29 @@ retrieved chunk counts as relevant if it contains the snippet.
     Auto-generated questions quietly bake in the model's own errors, and then
     your eval measures nothing. Write them yourself; use an LLM only to
     *draft candidates* that you then verify and fix by hand.
+
+!!! note "Ideal vs. what Lab 2 actually ships"
+    Hand-writing is the ideal, and it is what makes the set trustworthy. Lab 2
+    deliberately takes a lighter route, so the gap is stated plainly:
+
+    | | Ideal (this page) | Lab 2 (actual) |
+    |---|---|---|
+    | Questions | written by hand | drafted by a third-party LLM |
+    | Evidence | a snippet you verified | located **verbatim** in the chunk index |
+    | Review | every row read and fixed | **none** — auto-labelled, used directly |
+    | Artifact | `eval/qa_gold.jsonl` | `labs/eval/qa_candidates.jsonl` |
+    | `unanswerable` slice | included | **not built** |
+
+    **What survives the shortcut.** The evidence spans are *real* — each is located
+    verbatim in the corpus — so the retrieval metrics (`Hit@k`, `Recall@k`, `MRR`)
+    are unaffected. They score on chunk ids, not on what the model remembers.
+
+    **What it costs.** Entailment is not human-checked, and leakage is not filtered.
+    A one-off closed-book check (since removed from the notebook) flagged roughly
+    35–40% of questions as answerable without context. That inflates *absolute*
+    generation-correctness; it does not affect retrieval, and being roughly
+    config-independent it largely cancels in the ablation comparisons. So read
+    absolute correctness as soft and config *rankings* as sound.
 
 !!! tip "Checkpoint"
     Every question has at least one evidence snippet that you can find in the

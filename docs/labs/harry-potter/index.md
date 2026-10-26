@@ -29,7 +29,8 @@ flowchart TD
 ```
 
 
-- [Lab 2: RAG Evaluation](./lab2-rag-evaluation.ipynb)
+- [Lab 2: Evaluation Prep](./lab2-evaluation-prep.ipynb)
+- [Lab 3: Evaluation](./lab3-rag-evaluation.ipynb)
 
 
 *Disclaimer: The source book is copyrighted and is not included in this repository. This lab is for personal, non-commercial study only — only original code, questions, and metrics are published.*
