@@ -14,4 +14,4 @@ Environment setup, project scaffolding, and a service starting point.
 ## Related
 
 - [Codes](../index.md) — the rest of the section
-- [Cloud](../cloud/index.md) · [JavaScript](../javascript/index.md) — sibling domains
+- [Cloud](../cloud/index.md) · [JavaScript](../javascript/index.md) · [Git](../git/index.md) — sibling domains

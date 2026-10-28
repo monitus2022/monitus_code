@@ -35,6 +35,14 @@ rather than by file type.
 
     [:octicons-arrow-right-24: JavaScript](javascript/index.md)
 
+-   :material-source-branch:{ .lg .middle } __Git__
+
+    ---
+
+    The everyday commands: commit, branch, fix a mistake, push.
+
+    [:octicons-arrow-right-24: Git](git/index.md)
+
 </div>
 
 

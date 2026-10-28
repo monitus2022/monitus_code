@@ -12,4 +12,4 @@ Starting points for a front-end project.
 ## Related
 
 - [Codes](../index.md) — the rest of the section
-- [Python](../python/index.md) · [Cloud](../cloud/index.md) — sibling domains
+- [Python](../python/index.md) · [Cloud](../cloud/index.md) · [Git](../git/index.md) — sibling domains
