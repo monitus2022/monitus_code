@@ -13,4 +13,4 @@ Configuration that gets a project deployed, kept as files worth copying.
 ## Related
 
 - [Codes](../index.md) — the rest of the section
-- [Python](../python/index.md) · [JavaScript](../javascript/index.md) — sibling domains
+- [Python](../python/index.md) · [JavaScript](../javascript/index.md) · [Git](../git/index.md) — sibling domains

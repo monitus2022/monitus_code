@@ -1,0 +1,7 @@
+nav:
+  - index.md
+  - Basics: basics.md
+  - Branching: branching.md
+  - Undo: undo.md
+  - Remotes: remote.md
+  - Config: config.md

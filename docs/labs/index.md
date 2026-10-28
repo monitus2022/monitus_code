@@ -6,6 +6,9 @@ title: Labs
 
 # Labs
 
+![harrypotter-cover](./harrypotter-cover.jpg)
+- [Harry Potter RAG example](./harry-potter/index.md)
+ 
 
 ## Related
 

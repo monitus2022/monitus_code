@@ -1,0 +1,382 @@
+---
+title: Harry Potter RAG Workplan
+---
+
+# Harry Potter RAG — Book 1
+
+A first-principles RAG lab: take one long book, build a retrieval-augmented
+question-answering loop from scratch, then measure how wrong it is.
+
+This page is the **workflow map** — the order to build things in, the decisions
+at each stage, and the checkpoints that tell you a stage is done. The runnable
+artifacts are the notebooks next to this file: `lab1-basic_rag.ipynb` (ingest
+through a working question-answering loop), `lab2-evaluation-prep.ipynb` (the
+labelled question set) and `lab3-rag-evaluation.ipynb` (metrics and ablations).
+This page is the reasoning behind them.
+
+!!! note "Learning goals"
+    - Understand RAG as **two stages** — retrieve, then generate — not one black box
+    - Feel which knobs actually move the numbers (chunking, retriever)
+    - Build an evaluation that separates **retrieval failure** from **generation failure**
+    - Keep the corpus small (one book) so each iteration is fast and cheap
+
+## Corpus and ground rules
+
+**Why Harry Potter:** it's clean prose, so PDF parsing is easy and your time
+goes to the parts that matter (chunking, retrieval, eval). But the content is
+not trivial — it's full of multi-hop questions, rare proper nouns, and aliases
+(`You-Know-Who` = `Voldemort`), which is exactly what makes retrieval hard.
+
+**Scope:** start with **Book 1 only**, from ingest through evaluation. Scale to
+all 7 books only after the numbers move predictably on one.
+
+!!! warning "Keep the text out of git"
+    The PDF and the extracted full text are copyrighted. Add `data/`, `*.pdf`,
+    the embedding cache, and the vector-store directory to `.gitignore`. Commit
+    only your code, your own questions, metrics, and short snippets.
+
+## The mental model
+
+```mermaid
+flowchart TD
+  A[PDF: 7 books] --> B[Parse to text<br/>PyMuPDF]
+  B --> C[Detect book + chapter<br/>slice Book 1]
+  C --> D[Chunk]
+  D --> E[Embed<br/>Titan Text v2]
+  D --> F[BM25 index]
+  E --> G[(Vector store)]
+  Q[Question] --> H{Retrieve}
+  G --> H
+  F --> H
+  H -->|top-k context| I[Generate<br/>Bedrock Converse]
+  I --> J[Answer + citations]
+  I --> N[Conflict probe<br/>perturbed facts]
+  N --> O[grounded vs leaked]
+  J --> K[Eval harness]
+  L[Gold set] --> K
+  K --> M[results.csv]
+```
+
+Two independent systems, two independent failure modes:
+
+- **Retriever** — did the right passage make it into the top-k?
+- **Generator** — given the right passage, did the model answer correctly and
+  stay grounded in it?
+
+If you only score the final answer, you can't tell which one broke. The gold
+set below is what lets you split them.
+
+## The workflow
+
+| # | Milestone | Goal | Checkpoint |
+|---|---|---|---|
+| 0 | **Ingest** | PDF → clean, chapter-aware text for Book 1 | You can print a chapter map and read a clean page |
+| 1 | **Baseline RAG** | Chunk → embed → index → retrieve → answer, end to end | Ask 3 questions you know the answers to and get sane answers |
+| 2 | **Gold set** | Questions with evidence snippets | Every question has a findable evidence snippet |
+| 3 | **Eval harness** | Score retrieval and generation separately | One `results.csv` you can re-run |
+| 4 | **Ablations** | Vary chunking/retriever, compare | A single comparison table |
+| 5 | **Robustness** | Perturb facts, prove context-grounding | Conflict probes follow the excerpt, not memory |
+| 6 | **Scale** | All 7 books + write-up | Cross-book questions work |
+
+**Lab 1** covers Milestones 0–1, **Lab 2 (Evaluation Prep)** covers Milestone 2,
+**Lab 3 (Evaluation)** covers Milestones 3–4.
+
+Stay on Book 1 through Milestone 5. Reducing the corpus is what keeps the loop
+fast.
+
+### Components to build
+
+Each milestone is just a few small pieces. This is the whole system, and each
+row is a function you write:
+
+| Component | Responsibility | Input → Output |
+|---|---|---|
+| Extractor | PDF pages → cleaned text | PDF path → list of page texts |
+| Structurer | Find book/chapter boundaries | pages → chapter spans with metadata |
+| Chunker | Text spans → overlapping chunks | text → list of chunk records |
+| Embedder | Chunks → vectors (with disk cache) | list of strings → vector array |
+| Vector index | Store + similarity search | vectors → top-k chunk ids |
+| Retriever | Rank chunks for a query (dense / BM25 / hybrid) | query → ranked chunk ids |
+| Generator | Answer from retrieved context, with citations | query + chunks → answer |
+| Judge | Score an answer against gold | question, gold, context, answer → verdict |
+| Harness | Orchestrate + compute metrics | gold set + config → `results.csv` |
+| Conflict probe | Perturbed index vs. parametric memory | config + probes → counterfactual-adoption rate |
+
+### Milestone 0 — Ingest
+
+**Parse.** Extract text page by page and keep the page number with each page —
+you'll want it for debugging, not for scoring.
+
+**Clean.** Novels in PDFs break in predictable ways:
+
+- **End-of-line hyphenation** — `won-\nder` should become `wonder`
+- **Running heads / page numbers** — repeated book title and digits on each page
+- **Ligatures and smart quotes** — `fi`, `fl`, curly quotes
+- **Blank or illustration pages** — drop or keep deliberately
+
+Print one raw page next to its cleaned version. If the cleaned text reads like
+a sentence, you're done.
+
+**Structure.** Detect the Book 1 start/end page (scan for the title strings),
+then detect chapter headings inside it. Book 1's chapters are numbered words
+(`CHAPTER ONE`, `CHAPTER TWO`, …). Produce a chapter map: chapter number →
+page range. This is what enables chapter-aware chunking later.
+
+!!! tip "Checkpoint"
+    A printed chapter map with 17 chapters and no obviously wrong boundaries.
+
+### Milestone 1 — Baseline RAG
+
+**Chunk.** Split into overlapping windows, and carry metadata on every chunk:
+book, chapter, page range, token count, and a stable chunk id. Compare two
+strategies from the start:
+
+| Strategy | How | Why compare |
+|---|---|---|
+| Fixed-size | ~512 tokens with ~10–15% overlap | The baseline everyone uses |
+| Chapter-aware | Split by chapter, then pack within the chapter | Stops a question and its answer being split apart |
+
+**Embed.** Use **Titan Text Embeddings V2** (`amazon.titan-embed-text-v2:0`)
+via `boto3`. Cache the vectors on disk keyed by a hash of the chunk text and
+the model — re-runs then cost nothing and take seconds instead of minutes.
+
+**Index.** Store vectors in a persistent local vector store (Chroma) so you can
+inspect what actually got indexed. Index the same chunks with **BM25**
+(`rank-bm25`) for the lexical side.
+
+**Retrieve.** Implement three retrievers so you can compare:
+
+- **Dense** — cosine similarity over embeddings
+- **BM25** — exact-term lexical matching
+- **Hybrid** — fuse the two rankings with Reciprocal Rank Fusion (`score = Σ 1/(k + rank)`, k≈60)
+
+Hybrid matters here specifically: novels are full of rare names ("Quirrell",
+"Nagini") where BM25 beats dense. Expect hybrid to win, and document it.
+
+**Generate.** Call a chat model on Bedrock through the **Converse API** — one
+code path for Claude or Nova, so swapping models is a one-line change. Prompt
+rules that matter:
+
+- Answer **only** from the provided context
+- If the context doesn't contain the answer, say so plainly (don't guess)
+- Cite the chunks used, as `[book, chapter]`
+
+Wrap it in one `ask(question)` function that returns the answer *plus* the
+retrieved chunks — you'll need both for evaluation.
+
+!!! tip "Checkpoint"
+    Ask "Who is Harry's godfather?", "What house is Hermione in?", and one
+    question whose answer isn't in Book 1. The third should be refused.
+
+### Milestone 2 — Gold set
+
+This is the labor that makes the lab credible. Write questions **by hand**,
+chapter by chapter — roughly 5 per chapter gives ~85. If you want a faster
+start, do ~20 as a smoke test, then expand.
+
+Mix the types deliberately: mostly `factoid`, some `multi-hop`, and a slice of
+`unanswerable` (the model should refuse these).
+
+Store each as one JSON object per line in `eval/qa_gold.jsonl`:
+
+```json
+{"id": "hp1-001", "book": 1, "chapter": 7,
+ "question": "What is on the third floor corridor that students are warned to avoid?",
+ "answer": "A three-headed dog (Fluffy)",
+ "evidence": [{"chapter": 7, "contains": "three-headed dog"}],
+ "type": "factoid"}
+```
+
+**Evidence is a short distinctive snippet, not a page number.** Editions
+paginate differently; a snippet is robust and avoids quoting passages. A
+retrieved chunk counts as relevant if it contains the snippet.
+
+!!! warning "Don't let an LLM write your gold set"
+    Auto-generated questions quietly bake in the model's own errors, and then
+    your eval measures nothing. Write them yourself; use an LLM only to
+    *draft candidates* that you then verify and fix by hand.
+
+!!! note "Ideal vs. what Lab 2 actually ships"
+    Hand-writing is the ideal, and it is what makes the set trustworthy. Lab 2
+    deliberately takes a lighter route, so the gap is stated plainly:
+
+    | | Ideal (this page) | Lab 2 (actual) |
+    |---|---|---|
+    | Questions | written by hand | drafted by a third-party LLM |
+    | Evidence | a snippet you verified | located **verbatim** in the chunk index |
+    | Review | every row read and fixed | **none** — auto-labelled, used directly |
+    | Artifact | `eval/qa_gold.jsonl` | `labs/eval/qa_candidates.jsonl` |
+    | `unanswerable` slice | included | **not built** |
+
+    **What survives the shortcut.** The evidence spans are *real* — each is located
+    verbatim in the corpus — so the retrieval metrics (`Hit@k`, `Recall@k`, `MRR`)
+    are unaffected. They score on chunk ids, not on what the model remembers.
+
+    **What it costs.** Entailment is not human-checked, and leakage is not filtered.
+    A one-off closed-book check (since removed from the notebook) flagged roughly
+    35–40% of questions as answerable without context. That inflates *absolute*
+    generation-correctness; it does not affect retrieval, and being roughly
+    config-independent it largely cancels in the ablation comparisons. So read
+    absolute correctness as soft and config *rankings* as sound.
+
+!!! tip "Checkpoint"
+    Every question has at least one evidence snippet that you can find in the
+    text, and the `unanswerable` ones genuinely aren't in Book 1.
+
+### Milestone 3 — Eval harness
+
+Score the two stages separately.
+
+**Retrieval** (uses the evidence labels):
+
+| Metric | Meaning |
+|---|---|
+| `Hit@k` | Share of questions with ≥1 relevant chunk in the top k |
+| `Recall@k` | Share of evidence snippets found in the top k, averaged |
+| `MRR` | Mean of `1/rank` of the first relevant chunk |
+
+**Generation:**
+
+| Metric | Meaning | Notes |
+|---|---|---|
+| `EM` / `F1` | Exact match / token overlap vs gold answer | Short factoid answers only; brittle on prose |
+| Correctness (judge) | LLM judge: does the answer match the gold meaning? | Use a **stronger** model than the generator |
+| Faithfulness (judge) | Is every claim supported by the retrieved context? | Catches hallucination even when the answer is "right" |
+| Abstention rate | On `unanswerable` items, does it correctly decline? | Also track *false* abstention on answerable items |
+
+The judge should return strict JSON (`correct`, `faithful`, `reason`) so you can
+parse it. Hand-check ~10 judged examples once to confirm the judge agrees with
+you before you trust it at scale.
+
+Write one row per question to `eval/results.csv`, with columns:
+
+```text
+id, type, retriever, chunk_size, top_k, hit@k, recall@k, mrr,
+em, f1, judge_correct, judge_faithful, judge_reason, abstained
+```
+
+!!! tip "Checkpoint"
+    Re-running the harness on the same config gives the same numbers.
+
+### Milestone 4 — Ablations
+
+Now that you can measure, vary one knob at a time and compare in a single
+table:
+
+| Knob | Values to try |
+|---|---|
+| Chunk size | 256 / 512 / 1024 tokens |
+| Chunking | fixed-size / chapter-aware |
+| Retriever | dense / BM25 / hybrid |
+| `top_k` | 3 / 5 / 10 |
+| Reranker (optional) | off / on — a cross-encoder or Bedrock rerank over the top-k |
+
+Report retrieval and generation metrics side by side, so you can see *why* a
+configuration wins, not just that it does.
+
+### Milestone 5 — Robustness: does it read the context?
+
+Everything so far can be satisfied by a model reciting the series from memory
+instead of reading the excerpts. This milestone proves the answer actually came
+from the retrieved text, by handing the pipeline a context that is deliberately
+**wrong** and seeing which source it trusts.
+
+**The conflict probe.** Build a *synthetic index* from a copy of Book 1 with a
+handful of famous facts changed, globally and consistently:
+
+| Real | Perturbed |
+|---|---|
+| `vault seven hundred and thirteen` | `vault nine hundred and ninety-nine` |
+| `Nimbus Two Thousand` | `Comet Three Sixty` |
+
+Ask a question whose real answer is the original value ("What vault held the
+Philosopher's Stone?") and read the answer:
+
+- **Perturbed value** → the pipeline is context-grounded.
+- **Original value** → the model leaked parametric memory and ignored the excerpt.
+
+!!! warning "Patch the surface form, not the number"
+    The book spells these out: there are **zero** occurrences of `Vault 713` or
+    `Nimbus 2000` in the text — it's `vault seven hundred and thirteen` and
+    `Nimbus Two Thousand`. A no-op replacement is indistinguishable from a leak,
+    so `assert replaced > 0` and fail loudly. Apply the change to the **raw text
+    before chunking**, then re-chunk, re-embed (the cache key is the text hash,
+    so only perturbed chunks miss) and index into a **separate collection**. The
+    fact recurs across several chapters and, thanks to the 15% overlap, in
+    adjacent chunks — change every occurrence or retrieval may surface an
+    unperturbed copy.
+
+**Three outcomes, not two.** Also classify *refused / garbled*, and use the
+retrieved chunks `ask()` already returns to separate a **retrieval miss** (the
+perturbed chunk never reached the prompt) from a genuine leak.
+
+**Pair it with a closed-book run** (the same question with retrieval off).
+Cross the two probes and the cells become diagnostic:
+
+| | context value returned | memory value returned |
+|---|---|---|
+| **closed-book correct** | grounded — knows it, obeys context | **leak** |
+| **closed-book wrong** | grounded (baseline) | investigate (guess?) |
+
+**Make it a battery.** One fact is anecdotal; perturb several independent famous
+facts (vault, broom, birthday, Fluffy's name, Flamel, the house) and report a
+**counterfactual-adoption rate** over the set. Keep probes famous — the test only
+has power where the model actually memorized the original.
+
+This is the *context–memory (knowledge) conflict* setting; see Longpre et al.,
+*Entity-Based Knowledge Conflicts in Question Answering* (2021). Scope it
+honestly: it proves context-preference for the perturbed fact, not general
+faithfulness — that stays with the judge-based metric from Milestone 3.
+
+!!! tip "Checkpoint"
+    With the perturbed index every probe returns the perturbed value, and the
+    unperturbed control returns the real one.
+
+### Milestone 6 — Scale to 7 books
+
+Only now ingest all seven. Detect each book's boundary, tag chunks with the
+book, and add cross-book questions to the gold set. Watch for the new failure
+mode: the right passage exists but competing near-duplicates from other books
+crowd it out of the top-k.
+
+## Failure taxonomy
+
+When a question fails, classify it before fixing it:
+
+| Failure | Symptom | Usual fix |
+|---|---|---|
+| Retrieval miss | Evidence not in top-k | Chunking or retriever |
+| Hallucination | Fluent answer, unsupported by context | Prompt / grounding rules |
+| Distractor | Evidence present, but model used a wrong chunk | Reranker / fewer chunks |
+| Over-abstention | Refuses though the answer is present | Prompt / top-k |
+| Under-abstention | Invents an answer to an unanswerable question | Stronger abstention instruction |
+| Parametric leak | Answers from memory over a conflicting excerpt | Grounding prompt / closed-book filter |
+
+## Bedrock notes
+
+- Enable model access in the console for **Titan Text Embeddings V2** and your
+  chosen Claude/Nova models in your region.
+- Titan V2 supports output dimensions 256/512/1024 and up to ~8k input tokens —
+  chunk well under that.
+- Use **Converse** for both generation and judging so the same code path works
+  across model families.
+- Cost is trivial at this scale: embedding one book is cents; per-query
+  generation only sends the retrieved chunks.
+
+## Repro checklist
+
+Pin these so a re-run is reproducible: embedding model + dimensions, generation
+model, judge model, chunk size and overlap, chunking strategy, `top_k`, fusion
+constant, the gold-set version (question IDs), and the perturbation set (probe IDs).
+
+## Next steps
+
+- Expand the gold set to the full ~80 questions
+- Add a reranker and re-run the ablation table
+- Compare against a **managed Bedrock Knowledge Base** as a baseline
+- Scale to all 7 books with cross-book questions
+
+## Related
+
+- [Labs](../index.md) — the section this lives in
+- [Lab examples](../lab-examples.md) — where this fits in a wider RAG portfolio

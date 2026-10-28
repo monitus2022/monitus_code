@@ -2,7 +2,7 @@
 title: Home
 ---
 
-# monitus_code
+# My Codes
 
 Notes, snippets and lab runs collected along the way.
 
