@@ -1,0 +1,269 @@
+id,type,retriever,chunk_size,top_k,hit@k,recall@k,mrr,em,f1,judge_correct,judge_faithful,judge_reason,abstained,question,gold,answer,retrieved_ids
+cand-hp1-01-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.10526315789473684,True,True,The model answer correctly identifies the firm's name as Grunnings and this is supported by the excerpts.,False,What is the name of the firm where Mr. Dursley works?,Grunnings,"Mr. Dursley works at a firm called Grunnings, which makes drills.
+
+[Book 1, Chapter 1]
+[Book 1, Chapter 1]",hp1-ch01-0001|hp1-ch05-0017|hp1-ch01-0003|hp1-ch01-0005|hp1-ch02-0009
+cand-hp1-01-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.13333333333333333,True,True,"The excerpt clearly states that Mr. Dursley saw a cat reading a map, which matches the model answer and is supported by the text.",False,What unusual animal did Mr. Dursley see reading a map?,a cat,"Mr. Dursley saw a cat reading a map.
+
+[Book 1, Chapter 1]
+[Book 1, Chapter 1]",hp1-ch01-0002|hp1-ch01-0004|hp1-ch01-0001|hp1-ch01-0005|hp1-ch02-0009
+cand-hp1-01-04,factoid,hybrid+rerank,512,5,0.0,0.0,0.0,0.0,0.08333333333333333,True,True,The model answer accurately describes the distinctive feature on Harry Potter's forehead as mentioned in the excerpts.,False,What distinctive feature did Harry Potter have on his forehead?,a bolt of lightning,"Harry Potter had a lightning-shaped scar on his forehead.
+
+[Book 1, Chapter 6]
+[Book 1, Chapter 6]
+[Book 1, Chapter 6]",hp1-ch06-0008|hp1-ch02-0002|hp1-ch06-0009|hp1-ch05-0018|hp1-ch06-0006
+cand-hp1-02-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.13333333333333333,True,True,"The model answer correctly identifies Piers Polkiss as Dudley's best friend who went to the zoo, which is supported by the excerpts.",False,What was the name of Dudley's best friend who accompanied them to the zoo?,Piers Polkiss,"Dudley's best friend who accompanied them to the zoo was Piers Polkiss.
+
+[Book 1, Chapter 2]
+[Book 1, Chapter 2]
+[Book 1, Chapter 2]
+[Book 1, Chapter 2]",hp1-ch02-0005|hp1-ch02-0007|hp1-ch02-0009|hp1-ch02-0004|hp1-ch02-0008
+cand-hp1-02-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.1904761904761905,True,True,"The model answer correctly identifies the type of snake as a Boa Constrictor, which is supported by the excerpts.",False,What type of snake did Harry communicate with at the zoo?,Boa Constrictor,"Harry communicated with a Boa Constrictor at the zoo.
+
+[Book 1, Chapter 2]
+[Book 1, Chapter 2]
+[Book 1, Chapter 2]",hp1-ch02-0009|hp1-ch02-0008|hp1-ch17-0005|hp1-ch02-0007|hp1-ch02-0005
+cand-hp1-02-03,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.09523809523809525,False,True,"The model answer states Dudley received thirty-six presents, but the excerpt clearly mentions he received thirty-seven before his parents promised two more.",False,How many birthday presents did Dudley receive before his parents promised to buy him two more?,thirty-seven,"Dudley received thirty-six birthday presents before his parents promised to buy him two more.
+
+[""[Book 1, Chapter 2]""]",hp1-ch02-0003|hp1-ch03-0012|hp1-ch02-0001|hp1-ch01-0001|hp1-ch03-0009
+cand-hp1-02-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.5217391304347826,True,True,"The model answer accurately reflects the snake's words as described in the excerpt from Book 1, Chapter 2.",False,What did the snake say to Harry as it slithered away from its tank?,"Brazil, here I come. . . . Thanksss, amigo.","As the snake slid past Harry, it hissed, “Brazil, here I come. . . . Thanksss, amigo.”
+
+[Book 1, Chapter 2]",hp1-ch02-0009|hp1-ch02-0008|hp1-ch17-0005|hp1-ch12-0013|hp1-ch16-0021
+cand-hp1-03-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.14285714285714288,True,True,"The model answer correctly identifies the school name as Smeltings, which is supported by the excerpts provided.",False,What was the name of the private school Dudley was accepted to?,Smeltings,"Dudley was accepted to Smeltings.
+
+[Book 1, Chapter 3]
+[Book 1, Chapter 3]",hp1-ch03-0001|hp1-ch06-0001|hp1-ch03-0002|hp1-ch04-0011|hp1-ch05-0013
+cand-hp1-03-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.19999999999999998,True,True,"The model answer correctly states that the letter addressed to Harry was written in emerald-green ink, which is supported by the excerpts.",False,What color ink was used to address Harry’s letter?,emerald-green,"The letter addressed to Harry was written in emerald-green ink.
+
+[Book 1, Chapter 3]
+[Book 1, Chapter 4]",hp1-ch03-0003|hp1-ch03-0007|hp1-ch03-0009|hp1-ch04-0004|hp1-ch04-0005
+cand-hp1-03-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.11764705882352941,False,True,"The model answer does not provide the specific name of the hotel, which is required for correctness, but it is faithful to the excerpt as it describes the hotel as gloomy-looking and on the outskirts of a big city.",False,What was the name of the hotel where the Dursleys stayed after leaving Privet Drive?,Railview Hotel,"The Dursleys stayed at a gloomy-looking hotel on the outskirts of a big city.
+
+[Book 1, Chapter 3]",hp1-ch03-0009|hp1-ch03-0003|hp1-ch02-0001|hp1-ch01-0006|hp1-ch01-0001
+cand-hp1-04-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.18181818181818182,True,True,The excerpt clearly states that Hagrid bent the rifle into a knot using his hands.,False,What did Hagrid use to bend Uncle Vernon's rifle into a knot?,his hands,"Hagrid bent Uncle Vernon’s rifle into a knot using his bare hands.
+
+[""[Book 1, Chapter 4]""]
+[""[Book 1, Chapter 4]""]",hp1-ch04-0002|hp1-ch04-0001|hp1-ch04-0004|hp1-ch08-0007|hp1-ch05-0003
+cand-hp1-04-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.3157894736842105,True,True,The model answer accurately reflects the information given in the excerpts.,False,What was written on Harry's birthday cake in green icing?,Happy Birthday Harry,"The birthday cake had ""Happy Birthday Harry"" written on it in green icing.
+
+[Book 1, Chapter 4]",hp1-ch04-0002|hp1-ch05-0002|hp1-ch04-0003|hp1-ch12-0008|hp1-ch01-0012
+cand-hp1-04-03,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.3448275862068966,True,True,The model answer correctly and faithfully reflects Hagrid's title as mentioned in the excerpts.,False,What title does Rubeus Hagrid hold at Hogwarts?,Keeper of Keys and Grounds,"Rubeus Hagrid holds the title of Keeper of Keys and Grounds at Hogwarts.
+
+[Book 1, Chapter 4]
+[Book 1, Chapter 4]
+[Book 1, Chapter 5]",hp1-ch04-0002|hp1-ch04-0003|hp1-ch05-0014|hp1-ch05-0007|hp1-ch01-0014
+cand-hp1-04-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.07692307692307693,True,True,"The model answer correctly identifies the item Hagrid gave Harry as a box, which is supported by the excerpt.",False,What did Hagrid give Harry that was slightly squashed from being sat on?,a box,"Hagrid gave Harry a slightly squashed box containing a large, sticky chocolate cake with ""Happy Birthday Harry"" written on it in green icing.
+
+[Book 1, Chapter 4]",hp1-ch04-0002|hp1-ch17-0013|hp1-ch05-0018|hp1-ch05-0017|hp1-ch01-0013
+cand-hp1-05-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.07692307692307693,True,True,The model answer correctly and faithfully identifies Gringotts as the wizard bank mentioned in the excerpts.,False,What is the name of the wizard bank mentioned in the chapter?,Gringotts,"The name of the wizard bank mentioned in the chapter is Gringotts.
+
+[Book 1, Chapter 5]
+[Book 1, Chapter 5]
+[Book 1, Chapter 6]
+[Book 1, Chapter 16]",hp1-ch05-0002|hp1-ch16-0014|hp1-ch06-0016|hp1-ch13-0004|hp1-ch05-0003
+cand-hp1-05-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.125,True,True,"The model answer correctly states that Hagrid tells Harry to give the owl five Knuts, which is supported by the excerpt where Hagrid says, 'Give him five Knuts.'",False,How many Knuts does Hagrid tell Harry to give the owl for delivering the newspaper?,five,"Hagrid tells Harry to give the owl five Knuts for delivering the newspaper.
+
+[Book 1, Chapter 5]",hp1-ch05-0001|hp1-ch05-0016|hp1-ch05-0011|hp1-ch05-0012|hp1-ch05-0008
+cand-hp1-05-03,multi-hop,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.09090909090909091,True,True,"The model answer correctly identifies dragons and enchantments as the magical substances guarding the high-security vaults at Gringotts, which is supported by the excerpts.",False,What are the two magical substances mentioned as guarding the high-security vaults at Gringotts?,"spells, dragons","Dragons and enchantments are mentioned as guarding the high-security vaults at Gringotts.
+
+[Book 1, Chapter 5]
+[Book 1, Chapter 5]",hp1-ch05-0003|hp1-ch16-0014|hp1-ch17-0004|hp1-ch05-0009|hp1-ch14-0003
+cand-hp1-05-04,factoid,hybrid+rerank,512,5,1.0,1.0,0.3333333333333333,0.0,0.17391304347826084,True,True,"The model answer correctly identifies the pub as the Leaky Cauldron, which is supported by the excerpts from Book 1, Chapter 5.",False,What is the name of the pub that serves as the entrance to Diagon Alley?,the Leaky Cauldron,"The name of the pub that serves as the entrance to Diagon Alley is the Leaky Cauldron.
+
+[Book 1, Chapter 5]
+[Book 1, Chapter 5]",hp1-ch13-0004|hp1-ch06-0016|hp1-ch05-0006|hp1-ch17-0003|hp1-ch05-0021
+cand-hp1-06-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.13333333333333333,True,True,"The model answer correctly states that Harry named his new owl Hedwig, which is supported by the excerpt from Book 1, Chapter 6.",False,What name did Harry give to his new owl?,Hedwig,"Harry named his new owl Hedwig.
+
+[Book 1, Chapter 6]
+[Book 1, Chapter 5]",hp1-ch06-0001|hp1-ch05-0017|hp1-ch03-0002|hp1-ch06-0003|hp1-ch16-0003
+cand-hp1-06-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.25806451612903225,True,True,"The model answer correctly and faithfully states the platform number Harry needs to use, as supported by the excerpts.",False,What platform number does Harry need to take the Hogwarts Express from?,nine and three-quarters,"Harry needs to take the train from platform nine and three-quarters.
+
+[Book 1, Chapter 6]
+[Book 1, Chapter 6]
+[Book 1, Chapter 6]
+[Book 1, Chapter 6]",hp1-ch06-0002|hp1-ch06-0005|hp1-ch06-0003|hp1-ch06-0001|hp1-ch06-0004
+cand-hp1-06-03,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.07999999999999999,True,True,"The name of Ron Weasley's pet rat, Scabbers, is confirmed in multiple excerpts from Book 1, Chapter 6.",False,What is the name of Ron Weasley’s pet rat?,Scabbers,"Ron Weasley’s pet rat is named Scabbers.
+
+[Book 1, Chapter 6]
+[Book 1, Chapter 6]
+[Book 1, Chapter 6]
+[Book 1, Chapter 6]",hp1-ch06-0010|hp1-ch06-0017|hp1-ch06-0013|hp1-ch06-0009|hp1-ch06-0014
+cand-hp1-06-04,multi-hop,hybrid+rerank,512,5,1.0,1.0,0.3333333333333333,0.0,0.42857142857142855,True,True,The model answer correctly identifies the two items Harry bought and is supported by the excerpts.,False,What two items did Harry buy from the candy cart on the Hogwarts Express that Ron warned him about?,Bertie Bott’s Every Flavor Beans and Chocolate Frogs,"Ron warned Harry about the Chocolate Frogs and Bertie Bott’s Every Flavor Beans he bought from the candy cart on the Hogwarts Express.
+
+[Book 1, Chapter 6]
+[Book 1, Chapter 6]
+[Book 1, Chapter 6]",hp1-ch06-0012|hp1-ch06-0013|hp1-ch06-0011|hp1-ch06-0010|hp1-ch12-0006
+cand-hp1-07-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.19999999999999998,True,True,"The model answer correctly identifies the color of the robes as emerald-green, which is supported by the excerpt from Book 1, Chapter 7.",False,What color robes was the witch at the door wearing when the first years arrived?,emerald-green,"The witch at the door, Professor McGonagall, was wearing emerald-green robes when the first years arrived.
+
+[Book 1, Chapter 7]",hp1-ch07-0001|hp1-ch05-0004|hp1-ch05-0013|hp1-ch06-0019|hp1-ch07-0002
+cand-hp1-07-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.3846153846153846,True,True,"The model answer correctly identifies the resident ghost of Gryffindor Tower as Sir Nicholas de Mimsy-Porpington, also known as Nearly Headless Nick, which is supported by the provided excerpts.",False,Which ghost is the resident of Gryffindor Tower?,Sir Nicholas de Mimsy-Porpington,"The resident ghost of Gryffindor Tower is Sir Nicholas de Mimsy-Porpington, also known as Nearly Headless Nick.
+
+[Book 1, Chapter 7]",hp1-ch07-0009|hp1-ch09-0013|hp1-ch09-0010|hp1-ch08-0001|hp1-ch10-0013
+cand-hp1-07-03,factoid,hybrid+rerank,512,5,1.0,1.0,0.5,0.0,0.17391304347826084,True,True,"The password 'Caput Draconis' is explicitly mentioned in the provided excerpts from Book 1, Chapter 7.",False,What was the password to enter the Gryffindor common room?,Caput Draconis,"The password to enter the Gryffindor common room was “Caput Draconis.”
+
+[Book 1, Chapter 7]
+[Book 1, Chapter 7]
+[Book 1, Chapter 7]",hp1-ch09-0011|hp1-ch07-0014|hp1-ch07-0013|hp1-ch09-0012|hp1-ch07-0006
+cand-hp1-07-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.14814814814814814,True,True,"The model answer correctly identifies Professor Snape as the teacher Harry felt didn't like him, which is supported by the excerpts from Book 1, Chapter 7 and Chapter 8.",False,Which teacher did Harry feel didn’t like him after making eye contact?,Professor Snape,"After making eye contact, Harry felt that Professor Snape didn’t like him.
+
+[Book 1, Chapter 7]
+[Book 1, Chapter 8]
+[Book 1, Chapter 8]",hp1-ch07-0011|hp1-ch08-0005|hp1-ch17-0001|hp1-ch11-0011|hp1-ch08-0004
+cand-hp1-08-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.47058823529411764,True,True,"The model answer correctly states the number of staircases at Hogwarts as mentioned in the excerpt from Book 1, Chapter 8.",False,How many staircases are there at Hogwarts?,a hundred and forty-two,"There are a hundred and forty-two staircases at Hogwarts.
+
+[Book 1, Chapter 8]",hp1-ch08-0001|hp1-ch06-0003|hp1-ch06-0005|hp1-ch06-0004|hp1-ch09-0010
+cand-hp1-08-02,factoid,hybrid+rerank,512,5,1.0,0.5,1.0,0.0,0.12903225806451613,True,True,"The name of Argus Filch's cat, Mrs. Norris, is correctly and faithfully derived from the provided excerpts.",False,What is the name of Argus Filch's cat?,Mrs. Norris,"The name of Argus Filch's cat is Mrs. Norris.
+
+[Book 1, Chapter 8]
+[Book 1, Chapter 8]
+[Book 1, Chapter 15]
+[Book 1, Chapter 9]
+[Book 1, Chapter 9]",hp1-ch08-0002|hp1-ch08-0008|hp1-ch15-0005|hp1-ch09-0013|hp1-ch09-0014
+cand-hp1-08-03,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.4210526315789474,True,True,"The model answer correctly identifies the potion as the Draught of Living Death, which is supported by the excerpt from [Book 1, Chapter 8].",False,What potion is made from asphodel and wormwood?,the Draught of Living Death,"The potion made from asphodel and wormwood is the Draught of Living Death.
+
+[Book 1, Chapter 8]",hp1-ch08-0006|hp1-ch08-0005|hp1-ch05-0005|hp1-ch14-0002|hp1-ch09-0005
+cand-hp1-08-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.2222222222222222,True,True,"The model answer correctly states the date of the Gringotts break-in as 31 July, which is supported by the excerpt from [Book 1, Chapter 8].",False,What date was the Gringotts break-in mentioned in the Daily Prophet cutting?,31 July,"The Gringotts break-in mentioned in the Daily Prophet cutting happened on 31 July.
+
+[Book 1, Chapter 8]",hp1-ch08-0009|hp1-ch06-0016|hp1-ch05-0003|hp1-ch06-0015|hp1-ch05-0009
+cand-hp1-09-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.4444444444444445,True,True,The model answer accurately reflects the excerpt where Wood suggests Harry should get a Nimbus Two Thousand or a Cleansweep Seven.,False,Which broomstick models did Wood suggest Harry should get?,a Nimbus Two Thousand or a Cleansweep Seven,"Wood suggested that Harry should get either a Nimbus Two Thousand or a Cleansweep Seven.
+
+[Book 1, Chapter 9]
+[Book 1, Chapter 9]",hp1-ch09-0007|hp1-ch09-0008|hp1-ch10-0003|hp1-ch10-0002|hp1-ch10-0001
+cand-hp1-09-03,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.1904761904761905,True,True,The model answer correctly and faithfully states the password 'Pig snout' as found in the excerpts.,False,What was the password to Gryffindor Tower when Neville forgot it?,Pig snout,"The password to Gryffindor Tower when Neville forgot it was 'Pig snout'.
+
+[Book 1, Chapter 9]
+[Book 1, Chapter 9]",hp1-ch09-0011|hp1-ch09-0012|hp1-ch07-0013|hp1-ch07-0014|hp1-ch07-0006
+cand-hp1-09-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.31578947368421056,True,True,"The model answer accurately describes the creature as a three-headed dog, which is supported by the excerpts detailing the encounter in the forbidden corridor on the third floor.",False,What creature did Harry and his friends encounter in the forbidden corridor on the third floor?,a monstrous three-headed dog,"They encountered a three-headed dog in the forbidden corridor on the third floor.
+
+[Book 1, Chapter 9]",hp1-ch09-0015|hp1-ch10-0009|hp1-ch08-0001|hp1-ch16-0011|hp1-ch17-0001
+cand-hp1-10-01,factoid,hybrid+rerank,512,5,1.0,1.0,0.3333333333333333,0.0,0.2727272727272727,True,True,"The model answer correctly identifies the broomstick model as Nimbus Two Thousand, which is supported by multiple excerpts.",False,What model of broomstick did Harry receive in the mail?,Nimbus Two Thousand,"Harry received a Nimbus Two Thousand in the mail.
+
+[Book 1, Chapter 10]
+[Book 1, Chapter 10]
+[Book 1, Chapter 10]",hp1-ch10-0002|hp1-ch10-0003|hp1-ch10-0001|hp1-ch09-0007|hp1-ch12-0001
+cand-hp1-10-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.2857142857142857,True,True,The model answer correctly states the point value of catching the Golden Snitch as per the provided excerpts.,False,How many points is the Golden Snitch worth when caught?,one hundred and fifty points,"The Golden Snitch is worth an extra hundred and fifty points to the team whose Seeker catches it.
+
+[Book 1, Chapter 10]
+[Book 1, Chapter 10]",hp1-ch10-0005|hp1-ch10-0012|hp1-ch10-0006|hp1-ch10-0013|hp1-ch15-0002
+cand-hp1-10-03,factoid,hybrid+rerank,512,5,0.0,0.0,0.0,0.0,0.19999999999999998,True,True,"The model answer correctly and faithfully states that Ron used the spell 'Wingardium Leviosa' to levitate the troll's club, as supported by the excerpts.",False,What spell did Ron use to levitate the troll's club?,Wingardium Leviosa,"Ron used the spell ""Wingardium Leviosa"" to levitate the troll's club.
+
+[Book 1, Chapter 10]
+[Book 1, Chapter 10]",hp1-ch10-0011|hp1-ch10-0010|hp1-ch07-0004|hp1-ch16-0018|hp1-ch10-0012
+cand-hp1-11-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.6060606060606061,True,True,The model answer accurately reflects the description of Hagrid's attire in the provided excerpt.,False,What was Hagrid wearing to defrost broomsticks on the Quidditch field?,"a long moleskin overcoat, rabbit fur gloves, and enormous beaverskin boots","Hagrid was wearing a long moleskin overcoat, rabbit fur gloves, and enormous beaverskin boots to defrost broomsticks on the Quidditch field.
+
+[Book 1, Chapter 11]",hp1-ch11-0001|hp1-ch05-0005|hp1-ch11-0010|hp1-ch05-0009|hp1-ch05-0015
+cand-hp1-11-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.19999999999999998,True,True,The model answer correctly states the number of ways of committing a Quidditch foul as per the excerpt from Quidditch Through the Ages.,False,How many ways of committing a Quidditch foul are there according to Quidditch Through the Ages?,seven hundred,"According to Quidditch Through the Ages, there are seven hundred ways of committing a Quidditch foul.
+
+[Book 1, Chapter 11]",hp1-ch11-0001|hp1-ch11-0002|hp1-ch11-0003|hp1-ch10-0003|hp1-ch09-0002
+cand-hp1-11-03,factoid,hybrid+rerank,512,5,1.0,1.0,0.25,0.0,0.56,True,True,The model answer correctly states the score of Harry's first Quidditch match and is supported by the excerpts provided.,False,What was the score of Harry's first Quidditch match?,one hundred and seventy points to sixty,"Gryffindor won by one hundred and seventy points to sixty.
+
+[Book 1, Chapter 11]
+[Book 1, Chapter 11]",hp1-ch11-0001|hp1-ch11-0003|hp1-ch15-0002|hp1-ch11-0010|hp1-ch10-0004
+cand-hp1-11-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.11428571428571428,True,True,The model answer accurately reflects the excerpt's description of Hermione using blue flames to stop Snape.,False,What did Hermione use to stop Snape from jinxing Harry's broom?,bright blue flames,"Hermione used blue flames from her wand to set the hem of Snape's robes on fire, which stopped him from jinxing Harry's broom.
+
+[Book 1, Chapter 11]
+[Book 1, Chapter 16]",hp1-ch11-0009|hp1-ch16-0013|hp1-ch09-0005|hp1-ch11-0010|hp1-ch13-0007
+cand-hp1-12-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.38095238095238093,True,True,The model answer accurately reflects the information provided in the excerpts about Hagrid's Christmas gift to Harry.,False,What did Hagrid make for Harry as a Christmas present?,a roughly cut wooden flute,"Hagrid made Harry a roughly cut wooden flute for Christmas.
+
+[Book 1, Chapter 12]
+[Book 1, Chapter 16]",hp1-ch12-0005|hp1-ch16-0009|hp1-ch16-0008|hp1-ch12-0006|hp1-ch05-0017
+cand-hp1-12-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.18181818181818182,True,True,The model answer accurately reflects the information provided in the excerpts.,False,What color was the sweater Mrs. Weasley made for Harry?,emerald green,"Mrs. Weasley made an emerald green sweater for Harry.
+
+[Book 1, Chapter 12]
+[Book 1, Chapter 12]
+[Book 1, Chapter 17]",hp1-ch12-0006|hp1-ch17-0018|hp1-ch12-0007|hp1-ch13-0007|hp1-ch12-0008
+cand-hp1-12-03,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.5806451612903226,True,True,The model answer accurately repeats the inscription from the provided excerpt.,False,What inscription is carved around the top of the Mirror of Erised?,Erised stra ehru oyt ube cafru oyt on wohsi,"The inscription carved around the top of the Mirror of Erised is ""Erised stra ehru oyt ube cafru oyt on wohsi.""
+
+[Book 1, Chapter 12]",hp1-ch12-0012|hp1-ch17-0002|hp1-ch12-0016|hp1-ch15-0015|hp1-ch17-0005
+cand-hp1-12-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.4666666666666667,True,True,The model answer accurately reflects what Dumbledore claimed he sees in the Mirror of Erised according to the provided excerpts.,False,What did Dumbledore claim he sees when he looks in the Mirror of Erised?,"himself holding a pair of thick, woolen socks","Dumbledore claimed that when he looks in the Mirror of Erised, he sees himself holding a pair of thick, woolen socks.
+
+[Book 1, Chapter 12]",hp1-ch12-0017|hp1-ch12-0016|hp1-ch17-0002|hp1-ch17-0011|hp1-ch12-0014
+cand-hp1-13-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.13333333333333333,True,True,"The model answer correctly identifies Perenelle as Nicolas Flamel's wife, which is supported by the excerpts from Book 1, Chapter 13 and Chapter 17.",False,What is the name of Nicolas Flamel's wife?,Perenelle,"Nicolas Flamel's wife is Perenelle.
+
+[Book 1, Chapter 13]
+[Book 1, Chapter 17]",hp1-ch13-0004|hp1-ch17-0008|hp1-ch13-0003|hp1-ch06-0012|hp1-ch12-0003
+cand-hp1-13-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.32000000000000006,True,True,"The model answer correctly states that Nicolas Flamel celebrated his six hundred and sixty-fifth birthday last year, which is consistent with the excerpt provided.",False,How old was Nicolas Flamel on his last birthday?,six hundred and sixty-five,"Nicolas Flamel celebrated his six hundred and sixty-fifth birthday last year.
+
+[Book 1, Chapter 13]
+[Book 1, Chapter 13]",hp1-ch13-0004|hp1-ch13-0005|hp1-ch14-0001|hp1-ch06-0012|hp1-ch13-0003
+cand-hp1-13-03,factoid,hybrid+rerank,512,5,1.0,1.0,0.5,0.0,0.3,True,True,"The model answer correctly identifies the spell as the Leg-Locker Curse, which is supported by the excerpts.",False,What spell did Malfoy use on Neville outside the library?,Leg-Locker Curse,"Malfoy used the Leg-Locker Curse on Neville outside the library.
+
+[Book 1, Chapter 13]
+[Book 1, Chapter 13]",hp1-ch13-0003|hp1-ch13-0002|hp1-ch16-0009|hp1-ch13-0006|hp1-ch16-0010
+cand-hp1-13-04,factoid,hybrid+rerank,512,5,1.0,1.0,0.5,0.0,0.0,False,True,"The excerpt states that Madam Hooch was refereeing the Quidditch match where Harry caught the Snitch in record time, not Snape.",False,Who refereed the Quidditch match where Harry caught the Snitch in record time?,Snape,"Madam Hooch refereed the Quidditch match where Harry caught the Snitch in record time.
+
+[Book 1, Chapter 11]
+[Book 1, Chapter 11]",hp1-ch11-0004|hp1-ch13-0002|hp1-ch13-0001|hp1-ch17-0001|hp1-ch11-0007
+cand-hp1-13-05,multi-hop,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.3076923076923077,True,True,The model answer accurately reflects the information provided in the excerpts about the Sorcerer's Stone producing the Elixir of Life and transforming metal into pure gold.,False,What two things does the Sorcerer’s Stone produce?,pure gold and the Elixir of Life,"The Sorcerer’s Stone produces the Elixir of Life, which will make the drinker immortal, and it can transform any metal into pure gold.
+
+[Book 1, Chapter 13]
+[Book 1, Chapter 13]
+[Book 1, Chapter 15]",hp1-ch13-0004|hp1-ch13-0005|hp1-ch15-0015|hp1-ch13-0010|hp1-ch16-0005
+cand-hp1-14-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.2222222222222222,True,True,"The model answer correctly identifies the breed of dragon Hagrid won, which is supported by the excerpts.",False,What breed of dragon did Hagrid win in a card game?,Norwegian Ridgeback,"Hagrid won a Norwegian Ridgeback dragon in a card game.
+
+[Book 1, Chapter 14]
+[Book 1, Chapter 14]",hp1-ch14-0005|hp1-ch16-0004|hp1-ch16-0003|hp1-ch07-0007|hp1-ch14-0007
+cand-hp1-14-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.08695652173913045,True,True,The excerpt from Chapter 14 explicitly states that Hermione was reciting the twelve uses of dragon's blood while studying.,False,How many uses of dragon’s blood did Hermione recite while studying?,twelve,"Hermione recited the twelve uses of dragon's blood while studying.
+
+[Book 1, Chapter 14]
+[Book 1, Chapter 13]
+[Book 1, Chapter 6]",hp1-ch14-0001|hp1-ch13-0003|hp1-ch13-0004|hp1-ch06-0012|hp1-ch15-0004
+cand-hp1-14-03,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.08333333333333334,False,False,"The model answer incorrectly states that Hagrid forgot Professor Sprout and Professor Flitwick, while the excerpt clearly shows he remembered them but initially forgot Professor Snape.",False,Which teacher did Hagrid forget when listing who helped protect the Sorcerer’s Stone?,Professor Snape,"Hagrid forgot to mention Professor Sprout and Professor Flitwick when listing the teachers who helped protect the Sorcerer’s Stone.
+
+[Book 1, Chapter 14]",hp1-ch14-0004|hp1-ch11-0011|hp1-ch05-0007|hp1-ch05-0008|hp1-ch17-0011
+cand-hp1-14-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.21052631578947367,True,True,"The model answer correctly states that Hagrid packed a teddy bear for Norbert, which is supported by the excerpt from Book 1, Chapter 14.",False,What did Hagrid pack for Norbert to prevent him from getting lonely during the journey?,teddy bear,"Hagrid packed a teddy bear for Norbert in case he gets lonely during the journey.
+
+[Book 1, Chapter 14]",hp1-ch14-0010|hp1-ch12-0008|hp1-ch16-0003|hp1-ch14-0007|hp1-ch14-0008
+cand-hp1-15-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.30303030303030304,True,True,The model answer correctly and faithfully reports the time mentioned in the excerpt.,False,What time did Professor McGonagall say the students were caught out of bed?,one o'clock in the morning,"Professor McGonagall said that the students were caught out of bed at one o'clock in the morning.
+
+[Book 1, Chapter 15]
+[Book 1, Chapter 15]
+[Book 1, Chapter 15]",hp1-ch15-0001|hp1-ch15-0002|hp1-ch09-0014|hp1-ch15-0005|hp1-ch10-0003
+cand-hp1-15-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.24,True,True,"The model answer correctly states that Professor McGonagall deducted a total of 150 points from Gryffindor, which is supported by the excerpt stating 'A hundred and fifty points lost.'",False,How many points did Professor McGonagall deduct from Gryffindor for the students' rule-breaking?,a hundred and fifty points,"Professor McGonagall deducted a total of 150 points from Gryffindor, fifty points each from Harry, Hermione, and Neville.
+
+[Book 1, Chapter 15]",hp1-ch15-0002|hp1-ch10-0013|hp1-ch16-0007|hp1-ch10-0012|hp1-ch11-0002
+cand-hp1-15-03,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.19999999999999998,True,True,"The model answer correctly identifies the silvery substance as unicorn blood, which is supported by the excerpts.",False,What silvery substance did Hagrid point out on the ground in the Forbidden Forest?,unicorn blood,"Hagrid pointed out unicorn blood on the ground in the Forbidden Forest.
+
+[Book 1, Chapter 15]
+[Book 1, Chapter 15]",hp1-ch15-0008|hp1-ch12-0006|hp1-ch15-0009|hp1-ch14-0002|hp1-ch05-0009
+cand-hp1-15-04,factoid,hybrid+rerank,512,5,1.0,1.0,0.25,0.0,0.3571428571428571,True,True,The model answer accurately reflects the information provided in the excerpts about Firenze saving Harry from a hooded figure drinking unicorn blood.,False,What creature did Firenze save Harry from in the Forbidden Forest?,a hooded figure drinking unicorn blood,"Firenze saved Harry from a hooded figure that was drinking unicorn blood.
+
+[Book 1, Chapter 15]
+[Book 1, Chapter 15]
+[Book 1, Chapter 15]",hp1-ch15-0014|hp1-ch15-0015|hp1-ch15-0016|hp1-ch15-0013|hp1-ch15-0012
+cand-hp1-16-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.07692307692307693,True,True,The model answer correctly identifies the object as a flute and is supported by the excerpts.,False,What special object did Hagrid give Harry for Christmas that he used to calm Fluffy?,a flute,"Hagrid gave Harry a wooden flute for Christmas, which he used to calm Fluffy.
+
+[Book 1, Chapter 12]
+[Book 1, Chapter 16]
+[Book 1, Chapter 17]",hp1-ch16-0009|hp1-ch16-0008|hp1-ch16-0004|hp1-ch12-0005|hp1-ch17-0013
+cand-hp1-16-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.2222222222222222,True,True,"The model answer correctly and faithfully identifies the spell Hermione used to immobilize Neville as 'Petrificus Totalus', which is supported by the excerpts.",False,What spell did Hermione use to immobilize Neville when he tried to stop them?,Petrificus Totalus,"Hermione used the spell ""Petrificus Totalus"" to immobilize Neville.
+
+[Book 1, Chapter 16]
+[Book 1, Chapter 16]",hp1-ch16-0010|hp1-ch16-0009|hp1-ch13-0002|hp1-ch13-0003|hp1-ch16-0013
+cand-hp1-16-03,factoid,hybrid+rerank,512,5,1.0,1.0,0.3333333333333333,0.0,0.23076923076923078,True,True,"The model answer correctly identifies Devil's Snare as the creature encountered immediately after landing in the trapdoor chamber, which is supported by the excerpts.",False,What creature did the trio encounter immediately after landing in the trapdoor chamber?,Devil's Snare,"After landing in the trapdoor chamber, the trio encountered Devil’s Snare, a plant that wrapped around Harry and Ron's legs.
+
+[Book 1, Chapter 16]",hp1-ch16-0012|hp1-ch04-0001|hp1-ch16-0013|hp1-ch10-0010|hp1-ch09-0016
+cand-hp1-16-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.08695652173913045,True,True,The excerpt clearly states that Ron chose to be a knight during the life-sized chess game.,False,Which chess piece did Ron choose to be during the life-sized chess game?,a knight,"Ron chose to be a knight during the life-sized chess game.
+
+[""Book 1, Chapter 16""]
+[""Book 1, Chapter 16""]
+[""Book 1, Chapter 16""]",hp1-ch16-0017|hp1-ch16-0018|hp1-ch16-0016|hp1-ch12-0005|hp1-ch14-0008
+cand-hp1-17-01,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.1,True,True,"The model answer correctly and faithfully states that Quirrell let a troll into Hogwarts on Halloween, as supported by the excerpts from Book 1, Chapter 17.",False,What did Quirrell let into Hogwarts on Halloween?,the troll,"Quirrell let a troll into Hogwarts on Halloween.
+
+[Book 1, Chapter 10]
+[Book 1, Chapter 17]
+[Book 1, Chapter 17]",hp1-ch17-0001|hp1-ch17-0011|hp1-ch10-0008|hp1-ch13-0009|hp1-ch17-0002
+cand-hp1-17-02,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.17647058823529413,True,True,"The model answer correctly identifies the mirror as the Mirror of Erised, which is supported by the excerpts provided.",False,What was the name of the mirror Quirrell was trying to use to find the Sorcerer's Stone?,Mirror of Erised,"The mirror Quirrell was trying to use to find the Sorcerer's Stone was the Mirror of Erised.
+
+[Book 1, Chapter 17]
+[Book 1, Chapter 17]
+[Book 1, Chapter 17]
+[Book 1, Chapter 17]",hp1-ch17-0002|hp1-ch17-0003|hp1-ch17-0004|hp1-ch17-0011|hp1-ch17-0012
+cand-hp1-17-03,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.13559322033898305,True,True,"The model answer correctly and faithfully explains that Harry's protection from Quirrell's touch was due to the love his mother had for him, as detailed in the provided excerpts.",False,What protected Harry from Quirrell's touch?,his mother's love,"Harry's protection from Quirrell's touch came from the love his mother had for him. This love, as explained by Dumbledore, left a mark on Harry that acted as a shield, making it agony for Quirrell, who was filled with hatred and shared a soul with Voldemort, to touch him.
+
+[Book 1, Chapter 17]
+[Book 1, Chapter 17]",hp1-ch17-0010|hp1-ch17-0006|hp1-ch17-0004|hp1-ch17-0002|hp1-ch15-0017
+cand-hp1-17-04,factoid,hybrid+rerank,512,5,1.0,1.0,1.0,0.0,0.07692307692307693,True,True,"The model answer correctly states that Dumbledore awarded Neville Longbottom ten points, which is supported by the excerpt from Book 1, Chapter 17.",False,How many points did Dumbledore award Neville Longbottom at the end-of-year feast?,ten,"Dumbledore awarded Neville Longbottom ten points at the end-of-year feast for standing up to his friends.
+
+[Book 1, Chapter 17]
+[Book 1, Chapter 17]",hp1-ch17-0016|hp1-ch17-0015|hp1-ch09-0004|hp1-ch09-0003|hp1-ch17-0013
