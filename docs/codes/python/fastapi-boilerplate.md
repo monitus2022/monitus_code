@@ -45,7 +45,8 @@ app/
 Settings are defined once and imported as the module-level `settings` object,
 the same way the scaffold does it. `database_url` is a plain `postgresql://`
 DSN, because the pool below talks to `asyncpg` directly — SQLAlchemy would
-instead want the `postgresql+asyncpg://` scheme.
+instead want the `postgresql+asyncpg://` scheme. Field constraints and other
+Settings options are covered in [Pydantic](pydantic.md).
 
 ```python
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -161,7 +162,8 @@ __all__ = ["SearchError", "SearchService"]
 ### `app/api/v1/schemas.py`
 
 Request and response models live here, so handlers stay thin and the OpenAPI
-docs stay typed. Request bodies are defined the same way.
+docs stay typed. Request bodies are defined the same way. Field rules and
+validators are covered in [Pydantic](pydantic.md).
 
 ```python
 from pydantic import BaseModel
@@ -313,3 +315,4 @@ startup resources such as the pool.
 ## Related
 
 - [Project scaffold](project-scaffold.md) — the surrounding project structure
+- [Pydantic](pydantic.md) — model rules and `Field` constraints

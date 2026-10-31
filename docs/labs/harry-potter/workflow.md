@@ -48,7 +48,8 @@ flowchart TD
   Q[Question] --> H{Retrieve}
   G --> H
   F --> H
-  H -->|top-k context| I[Generate<br/>Bedrock Converse]
+  H -->|top-50 pool| RNK[Rerank<br/>Bedrock]
+  RNK -->|top-5 context| I[Generate<br/>Bedrock Converse]
   I --> J[Answer + citations]
   I --> N[Conflict probe<br/>perturbed facts]
   N --> O[grounded vs leaked]
@@ -79,7 +80,23 @@ set below is what lets you split them.
 | 6 | **Scale** | All 7 books + write-up | Cross-book questions work |
 
 **Lab 1** covers Milestones 0–1, **Lab 2 (Evaluation Prep)** covers Milestone 2,
-**Lab 3 (Evaluation)** covers Milestones 3–4.
+**Lab 3 (Evaluation)** covers Milestones 3–4, and as built it also runs a
+**reranker** and a **closed-book control**.
+
+!!! note "What Lab 3 actually established (Book 1, 65 questions)"
+    - **Chunking was the wrong knob.** A sentence-packed 256-token index lost to
+      the 512-token baseline on every retrieval metric (`Hit@5` 0.83–0.86 vs
+      0.908); the answer is helped by its neighbours, not diluted by them.
+    - **The reranker was the right knob.** Ordering a top-50 pool (which already
+      contains 100% of the gold chunks) lifts `Hit@5` from 0.908 to **0.969** and
+      judge correctness from ~0.88 to **0.938**. Retrieval is no longer the
+      bottleneck on this set.
+    - **Half the score is latent memory.** Closed-book, the model answers ~0.42–0.49
+      of the set correctly; the retrieval-augmented pipeline flips ~35 of those
+      misses from wrong to right, so the gain is real retrieval work.
+    - **Generation is stochastic.** Two identical temperature-0 runs changed 58 of
+      65 answers. Trust retrieval deltas; treat one- or two-row generation
+      differences as noise.
 
 Stay on Book 1 through Milestone 5. Reducing the corpus is what keeps the loop
 fast.
@@ -97,6 +114,7 @@ row is a function you write:
 | Embedder | Chunks → vectors (with disk cache) | list of strings → vector array |
 | Vector index | Store + similarity search | vectors → top-k chunk ids |
 | Retriever | Rank chunks for a query (dense / BM25 / hybrid) | query → ranked chunk ids |
+| Reranker | Reorder candidates before the prompt | query + candidate chunks → reranked chunk ids |
 | Generator | Answer from retrieved context, with citations | query + chunks → answer |
 | Judge | Score an answer against gold | question, gold, context, answer → verdict |
 | Harness | Orchestrate + compute metrics | gold set + config → `results.csv` |
@@ -213,8 +231,8 @@ retrieved chunk counts as relevant if it contains the snippet.
     are unaffected. They score on chunk ids, not on what the model remembers.
 
     **What it costs.** Entailment is not human-checked, and leakage is not filtered.
-    A one-off closed-book check (since removed from the notebook) flagged roughly
-    35–40% of questions as answerable without context. That inflates *absolute*
+    A closed-book control (run properly in Lab 3) answers roughly 40–50% of the set
+    correctly without any context. That inflates *absolute*
     generation-correctness; it does not affect retrieval, and being roughly
     config-independent it largely cancels in the ablation comparisons. So read
     absolute correctness as soft and config *rankings* as sound.
@@ -269,10 +287,14 @@ table:
 | Chunking | fixed-size / chapter-aware |
 | Retriever | dense / BM25 / hybrid |
 | `top_k` | 3 / 5 / 10 |
-| Reranker (optional) | off / on — a cross-encoder or Bedrock rerank over the top-k |
+| Reranker | off / on — `amazon.rerank-v1:0` over a top-50 pool (`cohere.rerank-v3-5:0` is catalogue-visible but blocked for this account) |
 
 Report retrieval and generation metrics side by side, so you can see *why* a
 configuration wins, not just that it does.
+
+As built, Lab 3 ran the **retriever** and **reranker** rows and left `top_k` at 5.
+The chunk-size and chunking rows were tested and rejected (256-token chunks lost
+on every metric); an embedding-model swap was not attempted.
 
 ### Milestone 5 — Robustness: does it read the context?
 
@@ -362,6 +384,12 @@ When a question fails, classify it before fixing it:
   across model families.
 - Cost is trivial at this scale: embedding one book is cents; per-query
   generation only sends the retrieved chunks.
+- **Reranking** uses `bedrock-agent-runtime.rerank`. `amazon.rerank-v1:0` works;
+  `cohere.rerank-v3-5:0` is catalogue-visible but was denied for this account
+  (AWS Marketplace eligibility) — check access before planning around a model.
+- Rerank billing is per 100 documents. A 512-token chunk plus the query exceeds
+  the 512-token document limit and is split, so 50 chunks ≈ 96 billed documents ≈
+  one query unit (~$0.13 for 65 questions).
 
 ## Repro checklist
 
@@ -371,10 +399,13 @@ constant, the gold-set version (question IDs), and the perturbation set (probe I
 
 ## Next steps
 
-- Expand the gold set to the full ~80 questions
-- Add a reranker and re-run the ablation table
+- **Lab 4 — robustness (Milestone 5):** the conflict probes plus a **placebo**
+  index. The closed-book control proved memory is insufficient; only deliberately
+  wrong context proves the generator reads the excerpts rather than reciting them.
+- Expand the gold set beyond the auto-labelled 65 — hand-reviewed, with an
+  `unanswerable` slice (the current probes are six smoke-test rows).
 - Compare against a **managed Bedrock Knowledge Base** as a baseline
-- Scale to all 7 books with cross-book questions
+- Scale to all 7 books with cross-book questions (Milestone 6)
 
 ## Related
 
