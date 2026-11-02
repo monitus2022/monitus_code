@@ -34,4 +34,12 @@ Notes, snippets and lab runs collected along the way.
 
     [:octicons-arrow-right-24: Token counter](tools/token_count.md)
 
+-   :material-bookmark-multiple-outline:{ .lg .middle } __Resources__
+
+    ---
+
+    Online resources: articles, videos and other useful links.
+
+    [:octicons-arrow-right-24: Resources](resources.md)
+    
 </div>
