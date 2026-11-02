@@ -4,15 +4,17 @@ title: Other useful tools online
 
 # Online resources
 
-## Articles
+## Tools
 
 - [ChunkerLite](https://chunker.veristamp.in/): A visualized chunking dashboard
-- [Contextual retrieval in AI system](https://www.anthropic.com/research/contextual-retrieval)
 
+## Articles
+
+- [Contextual retrieval in AI system](https://www.anthropic.com/research/contextual-retrieval) - By Anthropic
 
 ## Videos
 
-- [Karpathy's Method] (https://www.youtube.com/watch?v=7zZy1QTvokM)
+- [Karpathy's Method](https://www.youtube.com/watch?v=7zZy1QTvokM) - *Stop Prompting Claude. Use Karpathy's Method Instead.*
   
 ??? "Summary"
     In the video **"Stop Prompting Claude. Use Karpathy's Method Instead"** ([http://www.youtube.com/watch?v=7zZy1QTvokM](http://www.youtube.com/watch?v=7zZy1QTvokM)), host Austin Marchese breaks down a framework based on Andrej Karpathy's methodology for using AI agents effectively.
